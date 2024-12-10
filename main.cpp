@@ -137,7 +137,7 @@ int main() {
     }
 
     // simulate queue, 10 rounds
-    for (int round = 0; round < 10, round++;) {
+    for (int round = 0; round < 10, ++round;) {
         cout << "Round: " << round << ":\n";
         simulateCoffeeRound(coffeeQueue, names, drinks);         // coffee booth simulation
         simulateMuffinRound(muffinQueue, names);                 // muffin booth simulation
@@ -150,7 +150,7 @@ int main() {
 
 
 // function definition
-void simulateRound(LinkedList& coffeeLine, const vector<string>& coffeeNames, const vector<string>& drinks) {
+void simulateCoffeeRound(LinkedList& coffeeLine, const vector<string>& coffeeNames, const vector<string>& drinks) {
     
     // seed random
     srand(static_cast<unsigned>(time(0)));
