@@ -8,7 +8,7 @@
 #include <deque>    // for muffin booth
 using namespace std;
 
-// customer struct to hold name and beverage order
+// Coffee customer struct to hold name and beverage order
 struct Node {
     string custName;
     string bevOrder;
@@ -79,9 +79,15 @@ public:
 };
 
 
+// Muffin customer struct to hold name
+struct muffinNode {
+    string custName;
+};
+
+
 // function declaration
 void simulateCoffeeRound(LinkedList& queue, const vector<string>& names, const vector<string>& drinks);
-void simulateMuffinRound(deque<string>& muffinLine, const vector<string>& muffinNames);
+void simulateMuffinRound(deque<muffinNode>& muffinLine, const vector<string>& muffinNames);
 
 
 // main function
@@ -98,7 +104,7 @@ int main() {
     LinkedList coffeeQueue;
 
     // Deque for muffin booth
-    deque<string> muffinQueue;
+    deque<muffinNode> muffinQueue;
 
     // initialize the coffee queue with 3 random customers
     for (int i = 0; i < 3; i++) {
@@ -110,7 +116,7 @@ int main() {
     // initialize the muffin queue with 3 random customers
     for (int j = 0; j < 3; j++) {
         string name = names[rand() % names.size()];      // gets a random name
-        muffinQueue.push_back(name);                // add a customer to the queue
+        muffinQueue.push_back(muffinNode{name});                // add a customer to the queue
     }
 
     // simulate queue, 10 rounds
@@ -154,7 +160,7 @@ void simulateRound(LinkedList& coffeeLine, const vector<string>& coffeeNames, co
     cout << endl;
 }
 
-void simulateMuffinRound(deque<string>& muffinLine, const vector<string>& muffinNames) {
+void simulateMuffinRound(deque<muffinNode>& muffinLine, const vector<string>& muffinNames) {
     
     // seed random
     srand(static_cast<unsigned>(time(0)));
@@ -162,7 +168,7 @@ void simulateMuffinRound(deque<string>& muffinLine, const vector<string>& muffin
     cout << "Muffin Booth: \n"; 
     // if the queue is not empty, serve the customer at the front
     if (!muffinLine.empty()) {
-        string custServed = muffinLine.front();
+        string custServed = muffinLine.front().custName;
         cout << custServed << " has been served a muffin!\n";
 
         // remove customer from the queue
@@ -176,7 +182,7 @@ void simulateMuffinRound(deque<string>& muffinLine, const vector<string>& muffin
     // 50% probability that someone will join the queue
     if (rand() % 2 == 0) {
         string name = muffinNames[rand() % muffinNames.size()];      // gets a random name 
-        muffinLine.push_back(name);                                  // add a customer to the queue
+        muffinLine.push_back(muffinNode{name});                                  // add a customer to the queue
         cout << "New customer: " << name << " joined the muffin queue\n";
     }
     cout << endl;
