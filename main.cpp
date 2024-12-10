@@ -86,7 +86,7 @@ void simulateRound(LinkedList& queue, const vector<string>& names, const vector<
 int main() {
 
     // seed random
-    srand(time(0));
+    srand(static_cast<unsigned>(time(0)));
 
     // vector of sample customer names and beverage options
     vector<string> names = {"Mauricio", "Mochi", "Danielle", "Patricia", "John", "Matt"};
@@ -116,6 +116,10 @@ int main() {
 // function definition
 void simulateRound(LinkedList& queue, const vector<string>& names, const vector<string>& drinks) {
     
+    // seed random
+    srand(static_cast<unsigned>(time(0)));
+    
+    cout << "Coffee Booth: \n"; 
     // if the queue is not empty, serve the customer at the front
     if (!queue.isEmpty()) {
         Node* current = queue.checkFront();
