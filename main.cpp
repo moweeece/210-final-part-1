@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <deque>    // for muffin booth
+#include <set>      // for pretzel queue
 using namespace std;
 
 // Coffee customer struct to hold name and beverage order
@@ -89,11 +90,16 @@ struct braceletNode {
     string braceletCust;
 };
 
+// Pretzel customer struct to hold name
+struct pretzelNode {
+    string pretzelCust;
+};
 
 // function declaration
-void simulateCoffeeRound(LinkedList& queue, const vector<string>& names, const vector<string>& drinks);
+void simulateCoffeeRound(LinkedList& queue, const vector<string>& coffeeNames, const vector<string>& drinks);
 void simulateMuffinRound(deque<muffinNode>& muffinLine, const vector<string>& muffinNames);
 void simulateBraceletRound(vector<braceletNode>& braceletLine, const vector<string>& braceletNames);
+void simulatePretzelRound(set<string>& pretzelLine, const vector<string>& Pretzelnames);
 
 
 // main function
@@ -103,10 +109,8 @@ int main() {
     srand(static_cast<unsigned>(time(0)));
 
     // vector of sample customer names and beverage options
-    vector<string> names = {"Mauricio", "Mochi", "Danielle", "Patricia", "John", "Matt"};
+    vector<string> names = {"Mauricio", "Mochi", "Danielle", "Patricia", "John", "Matt", "Art", "Megan", "Freddy", "Jason", "Jack", "Chucky"};
     vector<string> drinks = {"Latte", "Mocha", "Hot Chocolate", "Espresso", "Soda", "Flat White"};
-    // vector for bracelet names
-    vector<string> braceletNames = {"Art", "Megan", "Freddy", "Jason", "Jack", "Chucky"};
 
     // linked list for the actual queue
     LinkedList coffeeQueue;
@@ -117,7 +121,10 @@ int main() {
     // vecotr for friendship booth
     vector<braceletNode> braceletQueue;    
 
-    // initialize the coffee queue with 3 random customers
+    // set for art names
+    set<string> pretzelQueue;
+
+    // initialize the queue with 3 random customers
     for (int i = 0; i < 3; i++) {
         string name = names[rand() % names.size()];      // gets a random name
         string drink = drinks[rand() % drinks.size()];   // gets a random drink  
@@ -132,17 +139,24 @@ int main() {
 
     // initialize the bracelet queue with 3 random customers
     for (int k = 0; k < 3; k++) {
-        string braceletName = braceletNames[rand() % braceletNames.size()];      // gets a random name
+        string braceletName = names[rand() % names.size()];      // gets a random name
         braceletQueue.push_back(braceletNode{braceletName});                    // add a customer to the queue
     }
 
+    // initialize the art queue with 3 random customers
+    for (int k = 0; k < 3; k++) {
+        string pretzelName = names[rand() % names.size()];      // gets a random name
+        pretzelQueue.insert(pretzelName);                    // add a customer to the queue
+    }
+
     // simulate queue, 10 rounds
-    for (int round = 0; round < 10, ++round;) {
+    for (int round = 1; round <= 10; round++) {
         cout << "Round: " << round << ":\n";
         simulateCoffeeRound(coffeeQueue, names, drinks);         // coffee booth simulation
         simulateMuffinRound(muffinQueue, names);                 // muffin booth simulation
-        simulateBraceletRound(braceletQueue, names);                 // muffin booth simulation
-        cout << endl;
+        simulateBraceletRound(braceletQueue, names);             // muffin booth simulation
+        simulatePretzelRound(pretzelQueue, names);             // muffin booth simulation
+        cout << "===================================" << endl;
     }
 
     return 0;
@@ -150,11 +164,8 @@ int main() {
 
 
 // function definition
-void simulateCoffeeRound(LinkedList& coffeeLine, const vector<string>& coffeeNames, const vector<string>& drinks) {
-    
-    // seed random
-    srand(static_cast<unsigned>(time(0)));
-    
+void simulateCoffeeRound(LinkedList& coffeeLine, const vector<string>& coffeeNames, const vector<string>& drinks) 
+{
     cout << "Coffee Booth: \n"; 
     // if the queue is not empty, serve the customer at the front
     if (!coffeeLine.isEmpty()) {
@@ -178,11 +189,8 @@ void simulateCoffeeRound(LinkedList& coffeeLine, const vector<string>& coffeeNam
     cout << endl;
 }
 
-void simulateMuffinRound(deque<muffinNode>& muffinLine, const vector<string>& muffinNames) {
-    
-    // seed random
-    srand(static_cast<unsigned>(time(0)));
-    
+void simulateMuffinRound(deque<muffinNode>& muffinLine, const vector<string>& muffinNames) 
+{
     cout << "Muffin Booth: \n"; 
     // if the queue is not empty, serve the customer at the front
     if (!muffinLine.empty()) {
@@ -208,11 +216,8 @@ void simulateMuffinRound(deque<muffinNode>& muffinLine, const vector<string>& mu
 }
 
 
-void simulateBraceletRound(vector<braceletNode>& braceletLine, const vector<string>& braceletNames) {
-    
-    // seed random
-    srand(static_cast<unsigned>(time(0)));
-    
+void simulateBraceletRound(vector<braceletNode>& braceletLine, const vector<string>& braceletNames) 
+{
     cout << "Friendship Bracelet Booth: \n"; 
     // if the queue is not empty, serve the customer at the front
     if (!braceletLine.empty()) {
@@ -231,7 +236,35 @@ void simulateBraceletRound(vector<braceletNode>& braceletLine, const vector<stri
     if (rand() % 2 == 0) {
         string braceletName = braceletNames[rand() % braceletNames.size()];      // gets a random name 
         braceletLine.push_back(braceletNode{braceletName});                                  // add a customer to the queue
-        cout << "New customer: " << braceletName << " joined the muffin queue\n";
+        cout << "New customer: " << braceletName << " joined the friendship bracelet queue\n";
+    }
+    cout << endl;
+
+}
+
+
+void simulatePretzelRound(set<string>& pretzelLine, const vector<string>& pretzelNames)
+{
+    cout << "Pretzel Booth: \n"; 
+    // if the queue is not empty, serve the customer at the front
+    if (!pretzelLine.empty()) {
+        // set iterator to the person at the front of the line
+        auto it = pretzelLine.begin();
+        // serve the person at the front of the line
+        cout << *it << " has been served a pretzel!\n";
+        // remmove the person from the front of the line
+        pretzelLine.erase(it);
+    }
+    // else, there is the queue is empty, nobody is in line
+    else {
+        cout << "No customers in line.\n";
+    }
+
+    // 50% probability that someone will join the queue
+    if (rand() % 2 == 0) {
+        string pretzelName = pretzelNames[rand() % pretzelNames.size()];      // gets a random name 
+        pretzelLine.insert(pretzelName);                                  // add a customer to the queue
+        cout << "New customer: " << pretzelName << " joined the pretzel queue\n";
     }
     cout << endl;
 
