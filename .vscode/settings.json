@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "xstring": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "system_error": "cpp",
+        "xlocale": "cpp",
+        "vector": "cpp",
+        "format": "cpp",
+        "iostream": "cpp"
     }
 }
