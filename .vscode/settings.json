@@ -6,6 +6,8 @@
         "xlocale": "cpp",
         "vector": "cpp",
         "format": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "xtree": "cpp"
     }
 }
